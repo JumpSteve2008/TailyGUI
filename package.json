@@ -1,6 +1,6 @@
 {
   "name": "sillytaily",
-  "version": "1.0.0",
+  "version": "0.1.0-beta",
   "description": "SillyTavern Desktop - Windows native desktop application",
   "main": "dist/main/index.js",
   "scripts": {
