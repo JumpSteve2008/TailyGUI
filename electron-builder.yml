@@ -1,0 +1,35 @@
+appId: com.sillytaily.desktop
+productName: sillyTaily
+copyright: Copyright © 2025
+
+directories:
+  buildResources: resources
+  output: release
+
+extraResources:
+  - from: dist/renderer/
+    to: renderer/
+
+files:
+  - dist/main/**/*
+  - dist/preload/**/*
+  - package.json
+
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  icon: resources/icons/icon.ico
+
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: true
+  createStartMenuShortcut: true
+  shortcutName: sillyTaily
+  installerIcon: resources/icons/icon.ico
+  uninstallerIcon: resources/icons/icon.ico
+
+publish: null

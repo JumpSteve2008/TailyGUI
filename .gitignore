@@ -1,0 +1,16 @@
+node_modules/
+dist/
+release/
+*.js.map
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# ENV
+.env
+.env.local

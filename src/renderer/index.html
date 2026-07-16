@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>sillyTaily — Demo</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div id="titlebar">
+    <div id="titlebar-drag" class="drag-region">
+      <img id="titlebar-icon" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230078d4'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='white' font-family='Arial'%3EST%3C/text%3E%3C/svg%3E" width="16" height="16">
+      <span id="titlebar-label">sillyTaily</span>
+      <span class="profile-tag">Demo</span>
+    </div>
+    <div id="titlebar-controls">
+      <button class="titlebar-btn" id="btn-minimize" title="Minimize">
+        <svg width="12" height="12" viewBox="0 0 12 12"><rect y="5" width="12" height="1" fill="currentColor"/></svg>
+      </button>
+      <button class="titlebar-btn" id="btn-maximize" title="Maximize">
+        <svg width="12" height="12" viewBox="0 0 12 12"><rect x="1" y="1" width="10" height="10" stroke="currentColor" stroke-width="1" fill="none"/></svg>
+      </button>
+      <button class="titlebar-btn titlebar-btn-close" id="btn-close" title="Close">
+        <svg width="12" height="12" viewBox="0 0 12 12"><line x1="1" y1="1" x2="11" y2="11" stroke="currentColor" stroke-width="1.2"/><line x1="11" y1="1" x2="1" y2="11" stroke="currentColor" stroke-width="1.2"/></svg>
+      </button>
+    </div>
+  </div>
+  <div id="content">
+    <div id="placeholder">
+      <div class="placeholder-icon">
+        <svg width="64" height="64" viewBox="0 0 64 64">
+          <rect width="64" height="64" rx="12" fill="#0078d4"/>
+          <text x="32" y="42" font-size="32" text-anchor="middle" fill="white" font-family="Arial">ST</text>
+        </svg>
+      </div>
+      <h1>sillyTaily Desktop</h1>
+      <p class="subtitle">SillyTavern Windows Desktop Application</p>
+      <div class="status-card">
+        <div class="status-row">
+          <span class="status-label">ST Server</span>
+          <span class="status-value status-offline">Offline (not integrated yet)</span>
+        </div>
+        <div class="status-row">
+          <span class="status-label">Profile</span>
+          <span class="status-value">Demo</span>
+        </div>
+        <div class="status-row">
+          <span class="status-label">Shell UI</span>
+          <span class="status-value">Fluent Design — Frameless</span>
+        </div>
+      </div>
+      <p class="hint">The SillyTavern web UI will be embedded here in the next phase.</p>
+    </div>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

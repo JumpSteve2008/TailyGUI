@@ -1,0 +1,35 @@
+{
+  "name": "sillytaily",
+  "version": "1.0.0",
+  "description": "SillyTavern Desktop - Windows native desktop application",
+  "main": "dist/main/index.js",
+  "scripts": {
+    "compile": "tsc -p tsconfig.main.json && tsc -p tsconfig.preload.json && node scripts/copy-renderer.js",
+    "dev": "pnpm run compile && electron .",
+    "build": "pnpm run compile && electron-builder",
+    "build:win": "pnpm run compile && electron-builder --win",
+    "postinstall": "electron-builder install-app-deps"
+  },
+  "keywords": [
+    "sillytavern",
+    "ai",
+    "chat",
+    "roleplay",
+    "desktop"
+  ],
+  "author": "",
+  "license": "AGPL-3.0",
+  "devEngines": {
+    "packageManager": {
+      "name": "pnpm",
+      "version": "^11.13.1",
+      "onFail": "download"
+    }
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.1",
+    "electron": "^43.1.1",
+    "electron-builder": "^26.15.3",
+    "typescript": "^7.0.2"
+  }
+}
