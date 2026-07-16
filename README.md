@@ -1,5 +1,7 @@
 # sillyTaily Desktop
 
+[![Build and Release](https://github.com/JumpSteve2008/TailyGUI/actions/workflows/build.yml/badge.svg)](https://github.com/JumpSteve2008/TailyGUI/actions/workflows/build.yml)
+
 Windows desktop application for [SillyTavern](https://github.com/SillyTavern/SillyTavern) — no Node.js installation required, just download and run.
 
 ## Features
@@ -136,6 +138,12 @@ Electron 43 ships with Node.js 24, which has breaking changes. Two patches are r
 2. **X-Frame-Options** — Helmet blocks iframe embedding. Disabled via `frameguard: false` in `vendor/SillyTavern/src/server-main.js`
 
 Run `node scripts/patch-st.js` after `npm install` in the ST directory to apply both patches automatically.
+
+## Known Issues
+
+### WASM image processing (Node 24)
+
+`@jsquash/jpeg` thumbnail generation fails in Electron's Node 24 environment due to `fetch('file://')` not being supported. Images work fine — only automatic thumbnail/color extraction for avatars is affected. Will be fixed in a future upstream ST update.
 
 ## License
 

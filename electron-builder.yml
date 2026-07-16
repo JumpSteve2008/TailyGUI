@@ -11,6 +11,8 @@ extraResources:
     to: renderer/
   - from: bundle/st-src/
     to: st-src/
+  - from: bundle/node/
+    to: node/
 
 files:
   - dist/main/**/*
