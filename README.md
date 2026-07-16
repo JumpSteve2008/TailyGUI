@@ -32,6 +32,10 @@ pnpm install
 # Install ST dependencies
 cd vendor/SillyTavern && npm install && cd ../..
 
+# Apply Node.js 24 compatibility patches (required)
+# These fix crypto hash and iframe embedding issues
+node scripts/patch-st.js
+
 # Run in dev mode
 pnpm dev
 
@@ -123,6 +127,15 @@ TailyGUI/
 | Installer | NSIS |
 | Logging | electron-log |
 | Config store | electron-store |
+
+## ST Compatibility Patches
+
+Electron 43 ships with Node.js 24, which has breaking changes. Two patches are required:
+
+1. **crypto hash** — Node 24 removed `shake256`. Replaced with `sha256` in `vendor/SillyTavern/webpack.config.js`
+2. **X-Frame-Options** — Helmet blocks iframe embedding. Disabled via `frameguard: false` in `vendor/SillyTavern/src/server-main.js`
+
+Run `node scripts/patch-st.js` after `npm install` in the ST directory to apply both patches automatically.
 
 ## License
 
