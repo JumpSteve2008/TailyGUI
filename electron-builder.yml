@@ -9,15 +9,8 @@ directories:
 extraResources:
   - from: dist/renderer/
     to: renderer/
-  - from: vendor/SillyTavern/
+  - from: bundle/st-src/
     to: st-src/
-    filter:
-      - "**/*"
-      - "!**/.git"
-      - "!**/node_modules/.cache"
-      - "!**/.gitignore"
-      - "!**/.gitattributes"
-      - "!**/.github"
 
 files:
   - dist/main/**/*

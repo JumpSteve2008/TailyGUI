@@ -90,6 +90,7 @@ export function startServer(context: ProfileContext): Promise<number> {
       stdio: ['ignore', 'pipe', 'pipe'],
       env: {
         ...process.env,
+        NODE_PATH: app.isPackaged ? path.join(stSrc, 'st-deps', 'node_modules') : path.join(stSrc, 'node_modules'),
         NODE_ENV: 'production',
         PORT: String(context.port),
       },

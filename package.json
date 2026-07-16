@@ -6,8 +6,9 @@
   "scripts": {
     "compile": "tsc -p tsconfig.main.json && tsc -p tsconfig.preload.json && node scripts/copy-renderer.js",
     "dev": "pnpm run compile && electron .",
-    "build": "pnpm run compile && electron-builder",
-    "build:win": "pnpm run compile && electron-builder --win",
+    "prepare:st": "node scripts/bundle-st.js",
+    "build": "pnpm run compile && pnpm run prepare:st && electron-builder",
+    "build:win": "pnpm run compile && pnpm run prepare:st && electron-builder --win",
     "postinstall": "electron-builder install-app-deps"
   },
   "keywords": [
