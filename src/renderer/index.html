@@ -3,7 +3,6 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' http://127.0.0.1:*; frame-src http://127.0.0.1:*; connect-src http://127.0.0.1:*;">
   <title>sillyTaily</title>
   <link rel="stylesheet" href="style.css">
 </head>
@@ -44,10 +43,8 @@
       </div>
       <h2>Server Error</h2>
       <p class="error-message" id="error-message">The SillyTavern server could not be started.</p>
-      <button class="retry-btn" id="retry-btn">Retry</button>
+      <button class="retry-btn" id="retry-btn">Close</button>
     </div>
-
-    <iframe id="st-frame" src="about:blank" style="display:none;"></iframe>
   </div>
 
   <script src="app.js"></script>

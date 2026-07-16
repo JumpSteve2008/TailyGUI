@@ -1,4 +1,4 @@
-import { app, BrowserWindow, ipcMain } from 'electron';
+import { app, BrowserWindow, WebContentsView, ipcMain } from 'electron';
 import path from 'path';
 import { createLogger } from './logger';
 import { registerIpcHandlers } from './ipc';
@@ -27,7 +27,10 @@ async function initStore(): Promise<void> {
   });
 }
 
+const TITLEBAR_HEIGHT = 36;
+
 let mainWindow: BrowserWindow | null = null;
+let stView: WebContentsView | null = null;
 let currentProfile: ProfileContext | null = null;
 
 function parseProfileName(): string {
@@ -53,6 +56,45 @@ function getPreloadPath(): string {
   return path.join(__dirname, '../preload/index.js');
 }
 
+function createOrUpdateStView(url: string): void {
+  if (!mainWindow) return;
+
+  if (stView) {
+    mainWindow.contentView.removeChildView(stView);
+  }
+
+  stView = new WebContentsView({
+    webPreferences: {
+      contextIsolation: true,
+      nodeIntegration: false,
+    },
+  });
+
+  const bounds = mainWindow.getBounds();
+  const contentBounds = mainWindow.contentView.getBounds();
+
+  stView.setBounds({
+    x: 0,
+    y: TITLEBAR_HEIGHT,
+    width: contentBounds.width,
+    height: contentBounds.height - TITLEBAR_HEIGHT,
+  });
+
+  mainWindow.contentView.addChildView(stView);
+
+  stView.webContents.loadURL(url);
+
+  stView.webContents.on('did-fail-load', (_event, errorCode, errorDescription, validatedURL) => {
+    logger.error('ST view load failed:', errorCode, errorDescription, validatedURL);
+    ipcMainBroadcast('server:status', {
+      state: 'error',
+      profileName: currentProfile?.profileName ?? 'unknown',
+      port: currentProfile?.port ?? 0,
+      error: `Load failed: ${errorDescription}`,
+    });
+  });
+}
+
 function createWindow(): BrowserWindow {
   const savedState: WindowState = store?.get('windowState') ?? { width: 1280, height: 800, isMaximized: false };
 
@@ -71,7 +113,6 @@ function createWindow(): BrowserWindow {
       preload: getPreloadPath(),
       contextIsolation: true,
       nodeIntegration: false,
-      webviewTag: false,
     },
   });
 
@@ -88,6 +129,18 @@ function createWindow(): BrowserWindow {
         state: 'loading',
         profileName: currentProfile.profileName,
         port: currentProfile.port,
+      });
+    }
+  });
+
+  win.on('resize', () => {
+    if (stView && mainWindow) {
+      const cb = mainWindow.contentView.getBounds();
+      stView.setBounds({
+        x: 0,
+        y: TITLEBAR_HEIGHT,
+        width: cb.width,
+        height: cb.height - TITLEBAR_HEIGHT,
       });
     }
   });
@@ -113,6 +166,7 @@ function createWindow(): BrowserWindow {
 
   win.on('closed', () => {
     mainWindow = null;
+    stView = null;
   });
 
   return win;
@@ -151,13 +205,15 @@ async function startApp(): Promise<void> {
   try {
     await startServer(currentProfile);
 
+    const stUrl = `http://127.0.0.1:${currentProfile.port}/`;
+
     ipcMainBroadcast('server:status', {
       state: 'ready',
       profileName: currentProfile.profileName,
       port: currentProfile.port,
     });
 
-    mainWindow.webContents.send('server:url', `http://127.0.0.1:${currentProfile.port}/`);
+    createOrUpdateStView(stUrl);
   } catch (err) {
     logger.error('Failed to start ST server:', err);
 

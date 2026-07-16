@@ -5,23 +5,18 @@ var loadingScreen = document.getElementById('loading-screen');
 var errorScreen = document.getElementById('error-screen');
 var errorMessage = document.getElementById('error-message');
 var loadingHint = document.getElementById('loading-hint');
-var stFrame = document.getElementById('st-frame');
-var retryBtn = document.getElementById('retry-btn');
-
-var currentStatus = null;
-var currentProfile = '...';
 
 function showScreen(screen) {
   loadingScreen.style.display = 'none';
   errorScreen.style.display = 'none';
-  stFrame.style.display = 'none';
 
   if (screen === 'loading') {
     loadingScreen.style.display = '';
   } else if (screen === 'error') {
     errorScreen.style.display = '';
-  } else if (screen === 'iframe') {
-    stFrame.style.display = '';
+  } else if (screen === 'content') {
+    loadingScreen.style.display = 'none';
+    errorScreen.style.display = 'none';
   }
 }
 
@@ -51,8 +46,6 @@ sillyTaily.window.onMaximizeChange(function (maximized) {
 
 // Server status listener
 sillyTaily.server.onStatusChange(function (status) {
-  currentStatus = status;
-  currentProfile = status.profileName;
   profileTag.textContent = status.profileName;
   loadingHint.textContent = 'Profile: ' + status.profileName + ' | Port: ' + status.port;
 
@@ -64,15 +57,14 @@ sillyTaily.server.onStatusChange(function (status) {
   }
 });
 
-// Server URL listener
-sillyTaily.server.onUrl(function (url) {
-  stFrame.src = url;
-  showScreen('iframe');
+// Server URL listener - the WebContentsView handles the display
+sillyTaily.server.onUrl(function () {
+  showScreen('content');
 });
 
-// Retry button
-retryBtn.addEventListener('click', function () {
-  require('electron').ipcRenderer.send('app:quit');
+// Close button on error
+document.getElementById('retry-btn').addEventListener('click', function () {
+  sillyTaily.window.close();
 });
 
 // Start in loading state
