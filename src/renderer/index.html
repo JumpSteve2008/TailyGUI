@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>sillyTaily — Demo</title>
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self' 'unsafe-inline' http://127.0.0.1:*; frame-src http://127.0.0.1:*; connect-src http://127.0.0.1:*;">
+  <title>sillyTaily</title>
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -11,7 +12,7 @@
     <div id="titlebar-drag" class="drag-region">
       <img id="titlebar-icon" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230078d4'/%3E%3Ctext x='16' y='22' font-size='18' text-anchor='middle' fill='white' font-family='Arial'%3EST%3C/text%3E%3C/svg%3E" width="16" height="16">
       <span id="titlebar-label">sillyTaily</span>
-      <span class="profile-tag">Demo</span>
+      <span class="profile-tag" id="profile-tag">loading...</span>
     </div>
     <div id="titlebar-controls">
       <button class="titlebar-btn" id="btn-minimize" title="Minimize">
@@ -25,33 +26,30 @@
       </button>
     </div>
   </div>
+
   <div id="content">
-    <div id="placeholder">
-      <div class="placeholder-icon">
-        <svg width="64" height="64" viewBox="0 0 64 64">
-          <rect width="64" height="64" rx="12" fill="#0078d4"/>
-          <text x="32" y="42" font-size="32" text-anchor="middle" fill="white" font-family="Arial">ST</text>
+    <div id="loading-screen" class="screen">
+      <div class="spinner"></div>
+      <p class="loading-text">Starting SillyTavern server...</p>
+      <p class="loading-hint" id="loading-hint">Profile: loading...</p>
+    </div>
+
+    <div id="error-screen" class="screen" style="display:none;">
+      <div class="error-icon">
+        <svg width="48" height="48" viewBox="0 0 48 48">
+          <circle cx="24" cy="24" r="22" stroke="#d13438" stroke-width="2.5" fill="none"/>
+          <line x1="24" y1="12" x2="24" y2="28" stroke="#d13438" stroke-width="3" stroke-linecap="round"/>
+          <circle cx="24" cy="34" r="2" fill="#d13438"/>
         </svg>
       </div>
-      <h1>sillyTaily Desktop</h1>
-      <p class="subtitle">SillyTavern Windows Desktop Application</p>
-      <div class="status-card">
-        <div class="status-row">
-          <span class="status-label">ST Server</span>
-          <span class="status-value status-offline">Offline (not integrated yet)</span>
-        </div>
-        <div class="status-row">
-          <span class="status-label">Profile</span>
-          <span class="status-value">Demo</span>
-        </div>
-        <div class="status-row">
-          <span class="status-label">Shell UI</span>
-          <span class="status-value">Fluent Design — Frameless</span>
-        </div>
-      </div>
-      <p class="hint">The SillyTavern web UI will be embedded here in the next phase.</p>
+      <h2>Server Error</h2>
+      <p class="error-message" id="error-message">The SillyTavern server could not be started.</p>
+      <button class="retry-btn" id="retry-btn">Retry</button>
     </div>
+
+    <iframe id="st-frame" src="about:blank" style="display:none;"></iframe>
   </div>
+
   <script src="app.js"></script>
 </body>
 </html>

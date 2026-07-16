@@ -9,11 +9,22 @@ directories:
 extraResources:
   - from: dist/renderer/
     to: renderer/
+  - from: vendor/SillyTavern/
+    to: st-src/
+    filter:
+      - "**/*"
+      - "!**/.git"
+      - "!**/node_modules/.cache"
+      - "!**/.gitignore"
+      - "!**/.gitattributes"
+      - "!**/.github"
 
 files:
   - dist/main/**/*
   - dist/preload/**/*
   - package.json
+
+asar: true
 
 win:
   target:
